@@ -1,0 +1,9 @@
+# Javascript Get Server
+
+This is a simple sinatra app to be used to work with js-get, a command line application that will make it dirt simple to add javascript files to your application!
+
+    js-get install jquery
+    
+This command will install jquery.js into you public/javascripts folder.
+
+
