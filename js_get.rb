@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'sequel'
 require 'json'
+require 'haml'
+require 'active_support'
 
 module Scripts
   def self.data
@@ -38,13 +40,29 @@ class JsGet < Sinatra::Default
     Scripts.data.all.to_json
   end
   
+  get '/scripts/new' do
+    haml :form
+  end
   
   get '/scripts/:id' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless Scripts.data.filter(:name => params[:id]).count > 0
     Scripts.data.filter(:name => params[:id]).first.to_json
   end
   
-
+  post '/scripts' do
+    Scripts.data << { 
+        :name => params[:name], 
+        :created_at => (params[:created_at] || Time.now), 
+        :version => (params[:version] || ""), 
+        :src_url => params[:src_url], 
+        :min_url => (params[:min_url] || ""), 
+        :author => (params[:author] || ""), 
+        :description => (params[:description] || "") 
+    }
+    "ok"
+    
+  end
+  
   post '/scripts/:id' do
     Scripts.data << { 
         :name => params[:id], 
