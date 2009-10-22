@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sequel'
+require 'json'
 
 module Scripts
   def self.data
@@ -31,14 +32,16 @@ end
 
 
 class JsGet < Sinatra::Default
+  VERSION = '0.1.1'
+  
+  get '/scripts.json' do
+    Scripts.data.all.to_json
+  end
+  
   
   get '/scripts/:id' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless Scripts.data.filter(:name => params[:id]).count > 0
-    @script = Scripts.data.filter(:name => params[:id]).first
-    puts @script.inspect
-    <<-JSON
-{ "name": "#{@script[:name]}", "version": "#{@script[:version]}", "src_url": "#{@script[:src_url]}", "min_url": "#{@script[:min_url]}", "author": "#{@script[:author]}", "description": "#{@script[:description]}", "created_at": "#{@script[:created_at].strftime("%Y-%m-%d %H:%M:%S")}" }
-    JSON
+    Scripts.data.filter(:name => params[:id]).first.to_json
   end
   
 
