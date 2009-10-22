@@ -36,6 +36,11 @@ end
 class JsGet < Sinatra::Default
   VERSION = '0.1.1'
   
+  get '/' do
+    @scripts = Scripts.data.all
+    haml :index
+  end
+  
   get '/scripts.json' do
     Scripts.data.all.to_json
   end

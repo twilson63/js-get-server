@@ -1,0 +1,12 @@
+%h1 JsGet Server
+
+%p
+  Welcome to the JsGet Server, this server contains an index of javascript libraries, you can click on any link here to download or install js-get to add your js libraries to your project via the command line.
+  
+%ul
+  - @scripts.each do |s|
+    %li.grid_1
+      %a{:href => s[:src_url] }= s[:name]
+      
+.clear
+
