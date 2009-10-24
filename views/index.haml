@@ -4,9 +4,10 @@
   Welcome to the JsGet Server, this server contains an index of javascript libraries, you can click on any link here to download or install js-get to add your js libraries to your project via the command line.
   
 %ul
+  %li.grid_1
+    %a{:href => "/scripts/new"} new
   - @scripts.each do |s|
     %li.grid_1
-      %a{:href => s[:src_url] }= s[:name]
-      
+      %a{:href => "/scripts/#{s[:name]}/show"}= s[:name]
 .clear
 

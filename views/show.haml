@@ -1,0 +1,15 @@
+%h1 
+  %a{:href => "/"} Js-get Server
+
+%h3= @script[:name]
+%p= @script[:description]
+%p= @script[:src_url]
+%p
+  %a{:href => "/scripts/#{@script[:name]}/edit"} (edit)
+  |
+  %a{:href => "/scripts/#{@script[:name]}/delete", :class => "delete"} (delete)
+  |
+  %a{:href => @script[:src_url], :target => "_blank"} (src)
+  |
+  %a{:href => @script[:min_url], :target => "_blank"} (min)
+

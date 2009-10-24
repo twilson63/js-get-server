@@ -23,7 +23,7 @@ module Scripts
       String :src_url
       String :min_url
       String :author
-      String :description
+      Text :description
       
       Time :created_at
     end
@@ -49,6 +49,18 @@ class JsGet < Sinatra::Default
     haml :form
   end
   
+  get '/scripts/:id/show' do
+    throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless @script = Scripts.data.filter(:name => params[:id]).first   
+    haml :show, :locals => { :script => @script }
+
+  end
+
+  get '/scripts/:id/edit' do
+    throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless @script = Scripts.data.filter(:name => params[:id]).first
+    haml :form, :locals => { :script => @script }
+
+  end
+
   get '/scripts/:id' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless Scripts.data.filter(:name => params[:id]).count > 0
     Scripts.data.filter(:name => params[:id]).first.to_json
@@ -64,22 +76,24 @@ class JsGet < Sinatra::Default
         :author => (params[:author] || ""), 
         :description => (params[:description] || "") 
     }
-    "ok"
+    redirect '/' 
     
   end
   
   post '/scripts/:id' do
-    Scripts.data << { 
-        :name => params[:id], 
-        :created_at => (params[:created_at] || Time.now), 
+    Scripts.data.filter(:name => params[:id]).update( { 
         :version => (params[:version] || ""), 
         :src_url => params[:src_url], 
         :min_url => (params[:min_url] || ""), 
         :author => (params[:author] || ""), 
         :description => (params[:description] || "") 
-    }
-    "ok"
+    })
+    redirect '/'    
   end
-    
+
+  post '/scripts/:id/delete' do
+    Scripts.data.filter(:name => params[:id]).delete
+    redirect '/'
+  end
     
 end
