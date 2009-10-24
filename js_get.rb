@@ -66,7 +66,6 @@ class JsGet < Sinatra::Default
         "Error: #{resp.status}"
       end
     else
-      puts params["openid_identifier"]
       headers 'WWW-Authenticate' => Rack::OpenID.build_header(
         :identifier => params["openid_identifier"]
       )
