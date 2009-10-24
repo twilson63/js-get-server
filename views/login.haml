@@ -1,0 +1,16 @@
+%h1 Login to JsGet Server
+
+%form{:method => "post", :action => '/login'}
+  %fieldset
+    %legend Login Via OpenId
+    %ul
+      %li
+        %label{:for => "openid_identifier"} OpenId
+        %br
+        %input{:id => "openid_identifier", :name => "openid_identifier", :type => "text", :class => "text"}
+      %li
+        %p.buttons
+          %input{:type => "submit", :value => "Log In"}
+      %li
+        %p.buttons
+          %a{:href => '/register'} Register

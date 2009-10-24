@@ -58,3 +58,7 @@ textarea {
     border: 1px solid #666;
 }
 
+p.buttons {
+    border:0;
+    text-align:left;
+}

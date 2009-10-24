@@ -10,7 +10,6 @@
           %textarea{ :name => e }= @script ? @script[:description] : ""
         - else
           %input{ :type => "text", :class => "text", :name => e, :value => @script ? @script[e.to_sym] : "" }
-        
     %li
       %p{:style => "border:0;text-align:left;"}
         %input{ :type => "submit"}
