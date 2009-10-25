@@ -102,7 +102,7 @@ class JsGet < Sinatra::Default
   
   get '/scripts/:id/show' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless @script = Scripts.data.filter(:name => params[:id]).first   
-    haml :show, :locals => { :script => @script }
+    haml :show, :locals => { :script => @script, :openid => session[:openid] }
 
   end
 
