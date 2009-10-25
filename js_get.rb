@@ -55,22 +55,23 @@ class JsGet < Sinatra::Default
   end
 
   post '/login' do
-    if resp = request.env["rack.openid.response"]
-      if resp.status == :success
-        session[:openid] = resp.display_identifier
+    #if resp = request.env["rack.openid.response"]
+    #  if resp.status == :success
+    #    session[:openid] = resp.display_identifier
         #request_url = session[:request_url]
         #session[:request_url] = nil
         #redirect request_url || '/'
-        redirect '/'
-      else
-        "Error: #{resp.status}"
-      end
-    else
-      headers 'WWW-Authenticate' => Rack::OpenID.build_header(
-        :identifier => params["openid_identifier"]
-      )
-      throw :halt, [401, 'got openid?']
-    end
+    #    redirect '/'
+    #  else
+    #    "Error: #{resp.status}"
+    #  end
+    #else
+    #  headers 'WWW-Authenticate' => Rack::OpenID.build_header(
+    #    :identifier => params["openid_identifier"]
+    #  )
+    #  throw :halt, [401, 'got openid?']
+    #end
+    "Hello World"
   end
 
   get '/scripts.json' do
