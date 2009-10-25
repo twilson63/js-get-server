@@ -84,7 +84,9 @@ class JsGet < Sinatra::Default
         session[:request_url] = request.path_info
         redirect '/login'
       end
-    elsif request.path_info.match(/scripts/) and request.request_method.match(/post/i)
+    elsif !request.path_info.match(/delete/) and 
+          request.path_info.match(/scripts/) and 
+          request.request_method.match(/post/i)
       if session[:openid]
         @created_by = session[:openid]
       else
@@ -113,6 +115,7 @@ class JsGet < Sinatra::Default
 
   get '/scripts/:id' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless Scripts.data.filter(:name => params[:id]).count > 0
+    RestClient.post "http://stats.jackhq.com/graphs/#{params[:id]}", :value => 1, :api => "123456789"
     Scripts.data.filter(:name => params[:id]).first.to_json
   end
   
@@ -142,9 +145,10 @@ class JsGet < Sinatra::Default
   end
 
   post '/scripts/:id/delete' do
-    throw :halt, [ 404, "Only Creator able to remove script"] unless @script[:created_by] == session[:openid]
-    Scripts.data.filter(:name => params[:id], :created_by => session[:openid]).delete
-    redirect '/'
+    #throw :halt, [ 404, "Only Creator able to remove script"] unless @script[:created_by] == params[:openid]
+    Scripts.data.filter(:name => params[:id], :created_by => params[:openid]).delete
+    #redirect '/'
+    "ok"
   end
     
 end
