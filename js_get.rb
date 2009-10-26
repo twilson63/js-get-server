@@ -58,10 +58,9 @@ class JsGet < Sinatra::Default
     if resp = request.env["rack.openid.response"]
       if resp.status == :success
         session[:openid] = resp.display_identifier
-        #request_url = session[:request_url]
-        #session[:request_url] = nil
-        #redirect request_url || '/'
-        redirect '/'
+        request_url = session[:request_url]
+        session[:request_url] = nil
+        redirect request_url || '/'
       else
         "Error: #{resp.status}"
       end
@@ -116,7 +115,7 @@ class JsGet < Sinatra::Default
 
   get '/scripts/:id' do
     throw :halt, [ 404, "No such script \"#{params[:id]}\"" ] unless Scripts.data.filter(:name => params[:id]).count > 0
-    RestClient.post "http://stats.jackhq.com/graphs/#{params[:id]}", :value => 1, :api => "123456789"
+    #RestClient.post "http://stats.jackhq.com/graphs/#{params[:id]}", :value => 1, :api => "123456789"
     Scripts.data.filter(:name => params[:id]).first.to_json
   end
   
